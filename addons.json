@@ -1,0 +1,16 @@
+[
+	{
+		"name" : "Mini Reward Gauge",
+		"file" : "minirewardgauge",
+		"extension" : "ipf",
+		"fileVersion" : "v1.0.0",
+		"releaseTag" : "1.0.0",
+		"unicode" : "⛄",
+		"description" : "Super Mini Dungeon Reward Gauge. Edit outside of dungeon with /mrgedit  Unlock/Lock the frame with /mrglock",
+		"tags" : [
+			"ui",
+			"mini",
+			"compact"
+		]
+	}
+]
