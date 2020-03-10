@@ -25,9 +25,21 @@ function MINIREWARDGAUGE_TOGGLE_LOCK()
 	if mrg.lockFrame == true then
 		CHAT_SYSTEM("[MRG] Frame Unlocked");
 		mrg.lockFrame = false;
+		
+		local drag = GET_CHILD_RECURSIVELY(ui.GetFrame("indun_reward_hud"), "drag");
+		if drag ~= nil then
+			AUTO_CAST(drag);
+			drag:FillClonePicture("AA000000");
+		end
 	else
 		CHAT_SYSTEM("[MRG] Frame Locked");
 		mrg.lockFrame = true;
+		
+		local drag = GET_CHILD_RECURSIVELY(ui.GetFrame("indun_reward_hud"), "drag");
+		if drag ~= nil then
+			AUTO_CAST(drag);
+			drag:FillClonePicture("00000000");
+		end
 	end
 end
 
@@ -37,6 +49,7 @@ function MINIREWARDGAUGE_TOGGLE_EDIT()
 	end
 	
 	imcAddOn.BroadMsg("OPEN_INDUN_REWARD_HUD");
+	
 	CHAT_SYSTEM("[MRG] RewardGauge visible.");
 end
 
@@ -128,9 +141,21 @@ function INDUN_REWARD_HUD_OPEN(frame, msg, argStr, argNum)
 	frame:Resize(100, 40);
 
 	frame:MoveFrame(mrg.settings.posX, mrg.settings.posY);
+	GET_CHILD_RECURSIVELY(frame, 'bgBox'):SetImage('');
+	
+	
+	local _drg = GET_CHILD_RECURSIVELY(frame, "drag");
+	if _drg ~= nil then
+		frame:RemoveChild("drag");
+	end
 	
 	local drag = frame:CreateOrGetControl("picture", "drag", 0, 0, 100, 40);
 	AUTO_CAST(drag);
+	drag:CreateInstTexture();
+	drag:FillClonePicture("00000000");
+	if mrg.lockFrame == false then
+		drag:FillClonePicture("AA000000");
+	end
 	drag:EnableHitTest(1);
 	drag:SetEventScript(ui.LBUTTONDOWN, "MINIREWARDGAUGE_PROCESS_MOUSE");
 
