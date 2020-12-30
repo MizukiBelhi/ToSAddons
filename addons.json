@@ -12,5 +12,34 @@
 			"mini",
 			"compact"
 		]
+	},
+	{
+		"name" : "Mini CM Gauge",
+		"file" : "minicmgauge",
+		"extension" : "ipf",
+		"fileVersion" : "v1.0.0",
+		"releaseTag" : "1.0.0CG",
+		"unicode" : "⛄",
+		"description" : "Super Mini CM Gauge. Edit outside of CM with /cmedit  Unlock/Lock the frame with /cmlock",
+		"tags" : [
+			"ui",
+			"mini",
+			"compact"
+		]
+	},
+	{
+		"name" : "Achievement Tracker",
+		"file" : "achievementtracker",
+		"extension" : "ipf",
+		"fileVersion" : "v1.0.0",
+		"releaseTag" : "1.0.0AT",
+		"unicode" : "⛄",
+		"description" : "Easily track achievements, can be hidden and moved. Easily select which achievements to track.",
+		"tags" : [
+			"ui",
+			"mini",
+			"compact",
+			"achievement"
+		]
 	}
 ]
