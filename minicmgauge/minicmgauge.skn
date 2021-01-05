@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<skinset name="minicmgaugeres">
+    <skinlist category="gauges">
+        <skin name="minicm_gauge" texture="\minicmgauge\minicmbar.tga">
+            <img name="bgleft" imgrect="3 3 2 19"/>
+            <img name="bgmiddle" imgrect="4 3 160 19"/>
+            <img name="bgright" imgrect="163 3 2 19"/>
+            <img name="barleft" imgrect="190 3 2 19"/>
+            <img name="barmiddle" imgrect="193 3 160 19"/>
+            <img name="barright" imgrect="352 3 2 19"/>
+        </skin>
+    </skinlist>
+    <imagelist category="icons">
+        <image name="minicmbg" file="minicmgauge\minicmbg.tga" imgrect="13 12 201 99" />
+    </imagelist>
+</skinset>
