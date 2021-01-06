@@ -371,3 +371,189 @@ function MCG_TIMER_UPDATE(timer)
 	
 	return 1;
 end
+
+-- 50$
+function ON_FIELD_DUNGEON_KILL_COUNT(frame, msg, argStr, argNum)
+	local msgList = StringSplit(argStr, '#')
+	if #msgList < 1 then
+		return
+	end
+	
+	--The frame cannot be hidden otherwise the timer stops working
+	frame:Resize(1, 1);
+	frame:MoveFrame(mcg.settings.posX, mcg.settings.posY);
+	frame:SetSkinName("None");
+	frame:ShowWindow(1);
+	
+	local miniFrame = ui.GetFrame("minicmgauge");
+	miniFrame:ShowWindow(1);
+	miniFrame:Resize(200, 60);
+	miniFrame:MoveFrame(mcg.settings.posX, mcg.settings.posY);
+	miniFrame:SetSkinName("None");
+	
+	
+	local picMax = GET_CHILD(frame, "challenge_pic_max", "ui::CPicture");
+	picMax:ShowWindow(0);
+	
+	local challenge_pic_logo = GET_CHILD(frame, "challenge_pic_logo", "ui::CPicture");
+	challenge_pic_logo:ShowWindow(0);
+	
+	local picLevel = GET_CHILD(frame, "challenge_pic_lv", "ui::CPicture");
+	picLevel:ShowWindow(0);
+	
+	local textTimer = GET_CHILD(frame, "challenge_mode_timer", "ui::CPicture");
+	--textTimer:ShowWindow(0);
+	
+	local picTimer = GET_CHILD(frame, "challenge_time", "ui::CPicture");
+	--picTimer:ShowWindow(0);
+	
+	local cmbg = GET_CHILD_RECURSIVELY(frame, "challenge_pic_lv_bg");
+	AUTO_CAST(cmbg);
+	cmbg:SetImage("");
+	
+	local progressGauge = GET_CHILD(frame, "challenge_gauge_lv", "ui::CGauge");
+	AUTO_CAST(progressGauge);
+	progressGauge:ShowWindow(0);
+	
+	
+	
+	local bgimg = miniFrame:CreateOrGetControl("picture", "bg", 0, 0, 200, 60);
+	AUTO_CAST(bgimg);
+	bgimg:SetImage("minicmbg");
+	bgimg:Resize(200,100);
+	bgimg:SetOffset(0, 0);
+	bgimg:SetMargin(0, 0, 0, 0);
+	bgimg:EnableHitTest(0);
+	
+
+	local levelText = miniFrame:CreateOrGetControl("richtext", "lvlTexts", 50, 25, 150, 40);
+	AUTO_CAST(levelText);
+	levelText:SetText("{@st43}{s20}Lv: "..(mcg.currentLevel or 0));
+	levelText:EnableHitTest(0);
+	levelText:SetOffset(75, 5);
+
+	
+	local cmText = miniFrame:CreateOrGetControl("richtext", "cmTexts", 0, 8, 150, 40);
+	AUTO_CAST(cmText);
+	cmText:SetText("{@st43}{s20}CM");
+	cmText:EnableHitTest(0);
+	cmText:SetOffset(5, 5);
+	
+
+	local cmPText = miniFrame:CreateOrGetControl("richtext", "cmPercentText", 50, 8, 150, 40);
+	AUTO_CAST(cmPText);
+	cmPText:EnableHitTest(0);
+	cmPText:SetOffset(5, 25);
+	
+
+	local mingauge = miniFrame:CreateOrGetControl("gauge", "gauge", 0, 0, 198, 10);
+	AUTO_CAST(mingauge);
+	mingauge:Resize(190, 10);
+	mingauge:SetOffset(5, 47);
+	mingauge:SetSkinName("minicm_gauge");
+	mingauge:EnableHitTest(0);
+	
+
+	local timePic = miniFrame:GetChild("ttext");
+	if timePic == nil then
+		timePic= miniFrame:CreateOrGetControl("richtext", "ttext", 0, 0, 23, 23);
+		AUTO_CAST(timePic);
+		timePic:SetOffset(135, 25);
+		timePic:EnableHitTest(0);
+		timePic:RunUpdateScript("MCG_TIMER_UPDATE");
+	else
+		AUTO_CAST(timePic);
+		timePic:RunUpdateScript("MCG_TIMER_UPDATE");
+	end
+
+	local _drg = GET_CHILD_RECURSIVELY(miniFrame, "drag");
+	if _drg ~= nil then
+		frame:RemoveChild("drag");
+	end
+	
+	local drag = miniFrame:CreateOrGetControl("picture", "drag", 0, 0, 200, 60);
+	AUTO_CAST(drag);
+	drag:CreateInstTexture();
+	drag:FillClonePicture("00000000");
+	if mcg.lockFrame == false then
+		drag:FillClonePicture("AA000000");
+	end
+	drag:EnableHitTest(1);
+
+	drag:SetEventScript(ui.LBUTTONDOWN, "MINICMGAUGE_PROCESS_MOUSE");
+	
+	if msgList[1] == "Set" then
+		ui.OpenFrame("challenge_mode")
+		frame:ShowWindow(1)
+
+		local gauge_lv = math.floor((argNum + 1) / 3) + 1
+		local gauge_no = argNum
+		if gauge_lv > 4 then
+			gauge_lv = 4
+		end
+
+		local challenge_pic_logo = GET_CHILD(frame, "challenge_pic_logo", "ui::CPicture")
+		challenge_pic_logo:SetImage("challenge_level_text")
+
+		local progressGauge = GET_CHILD(frame, "challenge_gauge_lv", "ui::CGauge")
+		progressGauge:SetSkinName("challenge_gauge_lv" .. gauge_lv)
+		progressGauge:SetMaxPointWithTime(0, 1, 0.1, 0.5)
+		
+		mingauge:SetMaxPointWithTime(0, 1, 0.1, 0.5);
+		
+		mcg.currentLevel = gauge_no;
+		
+		levelText:SetText("{@st43}{s20}Lv: "..mcg.currentLevel);
+
+		local picLevel = GET_CHILD(frame, "challenge_pic_lv", "ui::CPicture")
+		picLevel:SetImage("challenge_gauge_no" .. gauge_no)
+
+		local picMax = GET_CHILD(frame, "challenge_pic_max", "ui::CPicture")
+		picMax:ShowWindow(0)
+		picMax:StopUpdateScript("MAX_PICTURE_FADEINOUT")
+
+		local textTimer = GET_CHILD(frame, "challenge_mode_timer", "ui::CPicture")
+		textTimer:StopUpdateScript("CHALLENGE_MODE_TIMER")
+		textTimer:SetTextByKey('time', "00:00");
+	elseif msgList[1] == "Start" then
+		frame:ShowWindow(1)
+
+		local textTimer = GET_CHILD(frame, "challenge_mode_timer", "ui::CPicture")
+		--textTimer:StopUpdateScript("CHALLENGE_MODE_TIMER")
+		textTimer:RunUpdateScript("CHALLENGE_MODE_TIMER")
+		local curTime = imcTime.GetAppTimeMS()
+		textTimer:SetUserValue("CHALLENGE_MODE_START_TIME", tostring(curTime))
+		textTimer:SetUserValue("CHALLENGE_MODE_LIMIT_TIME", tostring(argNum))
+	elseif msgList[1] == "Refresh" then
+		frame:ShowWindow(1)
+
+		local killCount = tonumber(msgList[2])
+		local targetKillCount = tonumber(msgList[3])
+
+		local progressGauge = GET_CHILD(frame, "challenge_gauge_lv", "ui::CGauge")
+		progressGauge:SetMaxPointWithTime(killCount, targetKillCount, 0.1, 0.5)
+		--progressGauge:ShowWindow(1)
+		
+		mingauge:SetMaxPointWithTime(killCount, targetKillCount, 0.1, 0.5);
+		
+		local kcPercent = (100/targetKillCount)*killCount;
+		kcPercent = math.floor(kcPercent);
+		
+		if kcPercent > 100 then
+			kcPercent = 100;
+		end
+		
+		cmPText:SetText("{@st43}{s20}"..tostring(kcPercent).."%");
+
+		local picMax = GET_CHILD(frame, "challenge_pic_max", "ui::CPicture");
+		if killCount >= targetKillCount and picMax:IsVisible() == 0 then
+			picMax:ShowWindow(0);
+			picMax:RunUpdateScript("MAX_PICTURE_FADEINOUT", 0.01);
+		end
+	elseif msgList[1] == "End" then
+		frame:ShowWindow(0);
+		miniFrame:ShowWindow(0);
+		
+		mcg.currentLevel = 0;
+	end
+end

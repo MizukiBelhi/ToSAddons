@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <uiframe name="minicmgauge" x="0" y="0" width="400" height="400" create="open">
     <frame snapclient="false" snapframe="false" layout_gravity="left top" margin="0 0 0 0"/>
-    <option visible="false" alwaysVisible="false" closebutton="false" useimageitem="true" piptype="right" autoopen="false" hideable="true"/>
+    <option visible="false" alwaysVisible="false" closebutton="false" useimageitem="true" piptype="right" autoopen="false" hideable="false"/>
 	<input hittest="true" movable="true" moveintitlebar="false" hittestframe="true"/>
     <layer layerlevel="99"/>
 	<draw drawnotitlebar="false" drawtitlebar="false" drawframe="true"/>
