@@ -17,8 +17,8 @@
 		"name" : "Mini CM Gauge",
 		"file" : "minicmgauge",
 		"extension" : "ipf",
-		"fileVersion" : "v1.0.0",
-		"releaseTag" : "1.0.0CG",
+		"fileVersion" : "v1.0.1",
+		"releaseTag" : "1.0.1CG",
 		"unicode" : "⛄",
 		"description" : "Super Mini CM Gauge. Edit outside of CM with /cmedit  Unlock/Lock the frame with /cmlock",
 		"tags" : [
