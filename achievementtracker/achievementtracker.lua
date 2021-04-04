@@ -21,6 +21,7 @@ function ACHIEVEMENTTRACKER_ON_INIT(addon, frame)
 	addon:RegisterMsg("GAME_START_3SEC", "LOAD_AT");
 end
 
+
 function LOAD_AT()
 	local acutil = require("acutil");
 	local settings, err = acutil.loadJSON("../addons/achievementtracker/settings.json", STATUS_ACHIEVE_DEFAULTS);
@@ -87,11 +88,11 @@ function LOAD_AT()
 	local drag = frm:CreateOrGetControl("picture", "drag", 0, 0, frm:GetWidth(), frm:GetHeight());
 	AUTO_CAST(drag);
 	drag:ShowWindow(1);
-	drag:CreateInstTexture();
+	--drag:CreateInstTexture();
 	if STATUS_ACHIEVE_SETTINGS.locked == false then
-		drag:FillClonePicture("AA000000");
+		--drag:FillClonePicture("AA000000");
 	else
-		drag:FillClonePicture("00000000");
+		--drag:FillClonePicture("00000000");
 		drag:ShowWindow(0);
 	end
 	drag:EnableHitTest(1);
@@ -272,15 +273,19 @@ function AT_ADDS(aid)
 		tolua.cast(gaug, "ui::CPicture");
 		gaug:ShowWindow(1);
 		gaug:EnableHitTest(0);
-		gaug:CreateInstTexture();
-		gaug:FillClonePicture("DD222222");
+		gaug:SetImage("fullwhite");
+		gaug:SetEnableStretch(1);
+		gaug:SetColorTone("DD222222");
+
 		
 		gaug2 = gaug:CreateOrGetControl("picture", "gauge", 1, 1, ctrlset:GetWidth()-gaugeOffset-2, 13);
 		tolua.cast(gaug2, "ui::CPicture");
 		gaug2:ShowWindow(1);
 		gaug2:EnableHitTest(0);
-		gaug2:CreateInstTexture();
-		gaug2:FillClonePicture("FF11AAAA");
+		gaug2:SetImage("fullwhite");
+		gaug2:SetEnableStretch(1);
+		gaug2:SetColorTone("FF11AAAA");
+
 	end
 	gaug = ctrlset:CreateOrGetControl("picture", "gauge", 10, 20, ctrlset:GetWidth()-gaugeOffset, 15);
 	gaug2 = gaug:CreateOrGetControl("picture", "gauge", 1, 1, ctrlset:GetWidth()-gaugeOffset-2, 13);
@@ -466,11 +471,11 @@ function AT_ON_LOCK(frame, ctrl)
 	local drag = frm:CreateOrGetControl("picture", "drag", 0, 0, frm:GetWidth(), frm:GetHeight());
 	AUTO_CAST(drag);
 	drag:ShowWindow(1);
-	drag:CreateInstTexture();
+
 	if STATUS_ACHIEVE_SETTINGS.locked == false then
-		drag:FillClonePicture("AA000000");
+
 	else
-		drag:FillClonePicture("00000000");
+
 		drag:ShowWindow(0);
 	end
 	drag:EnableHitTest(1);
