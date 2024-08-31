@@ -265,7 +265,7 @@ function ON_CHALLENGE_MODE_TOTAL_KILL_COUNT(frame, msg, str, arg)
 		
 		mingauge:SetMaxPointWithTime(0, 1, 0.1, 0.5);
 		
-		mcg.currentLevel = 1;
+		mcg.currentLevel = level;
 		
 
 		local picMax = GET_CHILD(frame, "challenge_pic_max", "ui::CPicture");
@@ -435,7 +435,7 @@ function ON_FIELD_DUNGEON_KILL_COUNT(frame, msg, argStr, argNum)
 	
 	local cmText = miniFrame:CreateOrGetControl("richtext", "cmTexts", 0, 8, 150, 40);
 	AUTO_CAST(cmText);
-	cmText:SetText("{@st43}{s20}CM");
+	cmText:SetText("{@st43}{s20}DM");
 	cmText:EnableHitTest(0);
 	cmText:SetOffset(5, 5);
 	
